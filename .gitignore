@@ -1,0 +1,16 @@
+.classpath
+.project
+.war
+.jar
+.class
+*.iws
+*Db.properties
+*Db.script
+.settings
+eclipse
+nbproject/private
+stacktrace.log
+target
+/plugins
+/web-app/plugins
+/web-app/WEB-INF/classes
