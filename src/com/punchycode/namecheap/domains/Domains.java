@@ -120,4 +120,53 @@ public class Domains extends NamecheapClient
         }
         return dom;
     }
+
+    /**
+     * Check domain availability
+     * Supports sending a CSV string of domains
+     * @param csvNameList
+     * @return
+     */
+    public Document checkDomain(String csvNameList)
+    {
+        Document dom = null;
+        String cmd = "&Command=namecheap.domains.check";
+        cmd += "&DomainList=" + csvNameList;
+        this.setCommand( cmd );
+        try {
+            dom = this.executeRequest( getBaseUrl() + getCommand() );
+        }
+        catch ( DocumentException ex ) {
+            Logger.getLogger( Domains.class.getName() ).log( Level.SEVERE , null , ex );
+        }
+        catch ( MalformedURLException ex ) {
+            Logger.getLogger( Domains.class.getName() ).log( Level.SEVERE , null , ex );
+        }
+        return dom;
+    }
+
+    /**
+     * Get Contacts for domain
+     *
+     * @param domainName
+     * @return
+     */
+    public Document getContacts(String domainName)
+    {
+        Document dom = null;
+        String cmd = "&Command=namecheap.domains.getContacts";
+        cmd += "&DomainName=" + domainName.trim();
+        this.setCommand( cmd );
+        try {
+            dom = this.executeRequest( getBaseUrl() + getCommand() );
+        }
+        catch ( DocumentException ex ) {
+            Logger.getLogger( Domains.class.getName() ).log( Level.SEVERE , null , ex );
+        }
+        catch ( MalformedURLException ex ) {
+            Logger.getLogger( Domains.class.getName() ).log( Level.SEVERE , null , ex );
+        }
+        return dom;
+    }
+
 }
