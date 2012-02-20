@@ -192,4 +192,28 @@ public class Domains extends NamecheapClient
         }
         return dom;
     }
+
+    /**
+     * Get Registrar Lock status for a given domain
+     *
+     * @param domainName
+     * @return
+     */
+    public Document getRegistrarLock(String domainName)
+    {
+        Document dom = null;
+        String cmd = "&Command=namecheap.domains.getRegistrarLock";
+        cmd += "&DomainName=" + domainName.trim();
+        this.setCommand( cmd );
+        try {
+            dom = this.executeRequest( getBaseUrl() + getCommand() );
+        }
+        catch ( DocumentException ex ) {
+            Logger.getLogger( Domains.class.getName() ).log( Level.SEVERE , null , ex );
+        }
+        catch ( MalformedURLException ex ) {
+            Logger.getLogger( Domains.class.getName() ).log( Level.SEVERE , null , ex );
+        }
+        return dom;
+    }
 }
