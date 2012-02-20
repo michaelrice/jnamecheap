@@ -120,4 +120,22 @@ public class Domains extends NamecheapClient
         }
         return dom;
     }
+
+    public Document checkDomain(String csvNameList)
+    {
+        Document dom = null;
+        String cmd = "&Command=namecheap.domains.check";
+        cmd += "&DomainList=" + csvNameList;
+        this.setCommand( cmd );
+        try {
+            dom = this.executeRequest( getBaseUrl() + getCommand() );
+        }
+        catch ( DocumentException ex ) {
+            Logger.getLogger( Domains.class.getName() ).log( Level.SEVERE , null , ex );
+        }
+        catch ( MalformedURLException ex ) {
+            Logger.getLogger( Domains.class.getName() ).log( Level.SEVERE , null , ex );
+        }
+        return dom;
+    }
 }
