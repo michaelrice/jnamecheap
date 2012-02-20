@@ -216,4 +216,28 @@ public class Domains extends NamecheapClient
         }
         return dom;
     }
+
+    /**
+     *  Reactivate given domain
+     *
+     * @param domainName
+     * @return
+     */
+    public Document reactivateDomain(String domainName)
+    {
+        Document dom = null;
+        String cmd = "&Command=namecheap.domains.reactivate";
+        cmd += "&DomainName=" + domainName.trim();
+        this.setCommand( cmd );
+        try {
+            dom = this.executeRequest( getBaseUrl() + getCommand() );
+        }
+        catch ( DocumentException ex ) {
+            Logger.getLogger( Domains.class.getName() ).log( Level.SEVERE , null , ex );
+        }
+        catch ( MalformedURLException ex ) {
+            Logger.getLogger( Domains.class.getName() ).log( Level.SEVERE , null , ex );
+        }
+        return dom;
+    }
 }
