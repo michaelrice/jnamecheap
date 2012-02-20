@@ -169,4 +169,27 @@ public class Domains extends NamecheapClient
         return dom;
     }
 
+    /**
+     * Get Info about a given domain
+     *
+     * @param domainName
+     * @return
+     */
+    public Document getInfo(String domainName)
+    {
+        Document dom = null;
+        String  cmd = "&Command=namecheap.domains.getInfo";
+        cmd += "&DomainName=" + domainName.trim();
+        this.setCommand( cmd );
+        try {
+            dom = this.executeRequest( getBaseUrl() + getCommand() );
+        }
+        catch ( DocumentException ex ) {
+            Logger.getLogger( Domains.class.getName() ).log( Level.SEVERE , null , ex );
+        }
+        catch ( MalformedURLException ex ) {
+            Logger.getLogger( Domains.class.getName() ).log( Level.SEVERE , null , ex );
+        }
+        return dom;
+    }
 }
