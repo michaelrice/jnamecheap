@@ -25,20 +25,22 @@ public class Domains extends NamecheapClient
      * Supported types are ALL, EXPIRING, and EXPIRED
      *
      * @param type String either ALL, EXPIRING, or EXPIRED
+     * @return
      */
-    public void getList(String type)
+    public Document getList(String type)
     {
+        Document dom = null;
         // ALL/EXPIRING/EXPIRED
         if (( type.compareToIgnoreCase( "all") == 0 ) ||
             ( type.compareToIgnoreCase( "expiring") == 0 ) ||
             ( type.compareToIgnoreCase( "expired") == 0 )) {
-            getList(type,"","","100","");
+            return getList(type,"","","100","");
         }
+        return dom;
     }
 
     /**
-     * getList returns an array of Domain objects that represent
-     * a domain with all the info that the Namecheap API returns
+     * getList returns an org.dom4j.Document from the Namecheap API
      *
      * @param type
      * @param searchTerm
@@ -72,9 +74,9 @@ public class Domains extends NamecheapClient
         cmd += "&Page=" + pageNum;
         cmd += "&PageSize=" + resultsPerPage;
         cmd += "&SortBy=" + sortBy;
-        this.setCommand( cmd);
+        setCommand( cmd);
         try {
-            dom = ( Document ) this.executeRequest( this.getBaseUrl() + this.getCommand());
+            dom = ( Document ) executeRequest( getBaseUrl() + getCommand());
             return dom;
 
         }
@@ -94,5 +96,28 @@ public class Domains extends NamecheapClient
     public Document getList()
     {
         return getList( "ALL", "", "1","100","NAME" );
+    }
+
+    /**
+     * Get Tld List. This should be cached to cut down on calls
+     * since its output will rarely change.
+     *
+     * @return
+     */
+    public Document getTldList()
+    {
+        Document dom = null;
+        String cmd = "&Command=namecheap.domains.gettldlist";
+        this.setCommand( cmd);
+        try {
+            dom = this.executeRequest( getBaseUrl() + getCommand() );
+        }
+        catch ( DocumentException ex ) {
+            Logger.getLogger( Domains.class.getName() ).log( Level.SEVERE , null , ex );
+        }
+        catch ( MalformedURLException ex ) {
+            Logger.getLogger( Domains.class.getName() ).log( Level.SEVERE , null , ex );
+        }
+        return dom;
     }
 }
