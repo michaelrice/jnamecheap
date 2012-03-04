@@ -216,4 +216,99 @@ public class Domains extends NamecheapClient
         }
         return dom;
     }
+
+    /**
+     *  Reactivate given domain
+     *
+     * @param domainName
+     * @return
+     */
+    public Document reactivateDomain(String domainName)
+    {
+        Document dom = null;
+        String cmd = "&Command=namecheap.domains.reactivate";
+        cmd += "&DomainName=" + domainName.trim();
+        this.setCommand( cmd );
+        try {
+            dom = this.executeRequest( getBaseUrl() + getCommand() );
+        }
+        catch ( DocumentException ex ) {
+            Logger.getLogger( Domains.class.getName() ).log( Level.SEVERE , null , ex );
+        }
+        catch ( MalformedURLException ex ) {
+            Logger.getLogger( Domains.class.getName() ).log( Level.SEVERE , null , ex );
+        }
+        return dom;
+    }
+
+    /**
+     * Renew a given Domain using a Promotional Code for X years
+     *
+     * @param domainName
+     * @param years
+     * @param promoCode
+     * @return
+     */
+    public Document renewDomain(String domainName, int years, String promoCode)
+    {
+        Document dom = null;
+        String cmd = "&Command=namecheap.domains.renew";
+        cmd += "&DomainName=" + domainName.trim();
+        cmd += "&Years=" + years;
+        // need to check if promo code is null
+        // if not then PromotionCode=promoCode
+        if( promoCode != null ) {
+            cmd += "&PromotionCode=" + promoCode.trim();
+        }
+        this.setCommand( cmd );
+        try {
+            dom = this.executeRequest( getBaseUrl() + getCommand() );
+        }
+        catch ( DocumentException ex ) {
+            Logger.getLogger( Domains.class.getName() ).log( Level.SEVERE , null , ex );
+        }
+        catch ( MalformedURLException ex ) {
+            Logger.getLogger( Domains.class.getName() ).log( Level.SEVERE , null , ex );
+        }
+        return dom;
+    }
+
+    /**
+     * Renew a given Domain using a Promotional Code for X years
+     *
+     * @param domainName
+     * @param years
+     * @param promoCode
+     * @return
+     */
+    public Document renewDomain(String domainName, String years, String promoCode)
+    {
+        int y = Integer.parseInt( years );
+        return renewDomain(domainName,y,promoCode);
+    }
+
+    /**
+     * Renew a given Domain for X years
+     *
+     * @param domainName
+     * @param years
+     * @return
+     */
+    public Document renewDomain(String domainName, int years)
+    {
+        return renewDomain(domainName,years,null);
+    }
+
+    /**
+     * Renew a given Domain for X years
+     *
+     * @param domainName
+     * @param years
+     * @return
+     */
+    public Document renewDomain(String domainName, String years)
+    {
+        int y = Integer.parseInt( years );
+        return renewDomain(domainName,y,null);
+    }
 }
